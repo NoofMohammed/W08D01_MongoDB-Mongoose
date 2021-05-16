@@ -5,7 +5,30 @@ const db = require("./db");
 const app = express();
 app.use(express.json());
 
-app.get("/todos", (req, res) => {});
+app.get("/todos", (req, res) => {
+    todoModel
+    .find({})
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
+app.get("/todos/complete", (req, res) => {
+    todoModel
+    .find({isCompleted:"true"})
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
+
+
 app.post("/create/todo", (req, res) => {
   const { task, description, deadline, isCompleted, priority } = req.body;
   const todo = new todoModel({

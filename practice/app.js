@@ -47,8 +47,21 @@ app.post("/create/todo", (req, res) => {
       res.json(err);
     });
 });
-app.put("/update/todo", (req, res) => {});
-app.delete("/delete/todo", (req, res) => {});
+
+app.put("/update/todo", (req, res) => {
+    todoModel.updateOne({deadline:"today"}, { deadline:"tommrrow"})
+    .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => {
+        res.send(err);
+    
+      })
+
+});
+app.delete("/delete/todo", (req, res) => {
+    
+});
 
 const port = 3000;
 app.listen(port, () => {

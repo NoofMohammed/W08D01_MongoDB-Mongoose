@@ -64,7 +64,17 @@ app.put("/update/todo/:id", (req, res) => {
       res.send(err);
     });
 });
-app.delete("/delete/todo", (req, res) => {});
+app.delete("/delete/todo/:id", (req, res) => {
+    const _id = req.params.id;
+    todoModel.findOneAndRemove({_id})
+    .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => {
+        res.send(err);
+      });
+
+});
 
 const port = 3000;
 app.listen(port, () => {

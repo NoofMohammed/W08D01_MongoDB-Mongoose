@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/todos", (req, res) => {
-    todoModel
+  todoModel
     .find({})
     .then((result) => {
       res.send(result);
@@ -17,8 +17,8 @@ app.get("/todos", (req, res) => {
 });
 
 app.get("/todos/complete", (req, res) => {
-    todoModel
-    .find({isCompleted:"true"})
+  todoModel
+    .find({ isCompleted: "true" })
     .then((result) => {
       res.send(result);
     })
@@ -26,8 +26,6 @@ app.get("/todos/complete", (req, res) => {
       res.send(err);
     });
 });
-
-
 
 app.post("/create/todo", (req, res) => {
   const { task, description, deadline, isCompleted, priority } = req.body;
@@ -48,20 +46,25 @@ app.post("/create/todo", (req, res) => {
     });
 });
 
-app.put("/update/todo", (req, res) => {
-    todoModel.updateOne({deadline:"today"}, { deadline:"tommrrow"})
-    .then((result) => {
-        res.send(result);
-      })
-      .catch((err) => {
-        res.send(err);
-    
-      })
+app.put("/update/todo/:id", (req, res) => {
+  const _id = req.params.id;
 
+  const { task, description, deadline, isCompleted, priority } = req.body;
+
+  todoModel
+    .findOneAndUpdate(
+      { _id },
+      { task, description, deadline, isCompleted, priority },
+      { new: true }
+    )
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
-app.delete("/delete/todo", (req, res) => {
-    
-});
+app.delete("/delete/todo", (req, res) => {});
 
 const port = 3000;
 app.listen(port, () => {
